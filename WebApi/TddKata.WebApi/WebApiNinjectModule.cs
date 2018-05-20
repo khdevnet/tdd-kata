@@ -1,6 +1,10 @@
 ﻿using Ninject.Modules;
-using TddKata.WebApi.Extensibility.Repositories;
-using TddKata.WebApi.Repositories;
+using System.Collections.Generic;
+
+using TddKata.WebApi.Comparers;
+using TddKata.WebApi.Data.Entities;
+using TddKata.WebApi.Data.Repositories;
+using TddKata.WebApi.Extensibility.Data.Repositories;
 
 namespace TddKata.WebApi
 {
@@ -13,7 +17,8 @@ namespace TddKata.WebApi
 
         private void RegisterServices()
         {
-            Kernel.Bind<IHelloRepository>().To<HelloRepository>();
+            Kernel.Bind<IProductsRepository>().To<ProductsRepository>();
+            Kernel.Bind<IEqualityComparer<Product>>().To<ProductComparer>();
         }
     }
 }

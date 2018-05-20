@@ -65,9 +65,6 @@
     <Reference Include="Ninject.MockingKernel, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.MockingKernel.3.3.0\lib\net45\Ninject.MockingKernel.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.MockingKernel.Moq, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.MockingKernel.Moq.3.3.0\lib\net45\Ninject.MockingKernel.Moq.dll</HintPath>
-    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -94,7 +91,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ValuesControllerTests.cs" />
+    <Compile Include="Controllers\ProductsControllerTests.cs" />
+    <Compile Include="IntegrationTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
