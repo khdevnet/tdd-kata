@@ -12,3 +12,14 @@
         to change a delimiter, the beginning of the string will contain a separate line that looks like this:   “//[delimiter]\n[numbers…]” for example “//;\n1;2” should return three where the default delimiter is ‘;’ .
         the first line is optional. all existing scenarios should still be supported
     Calling Add with a negative number will throw an exception “negatives not allowed” - and the negative that was passed.if there are multiple negatives, show all of them in the exception message stop here if you are a beginner. 
+    
+## [FizzBuzzKata](https://www.codewars.com/kata/fizz-buzz)
+
+Return an array containing the numbers from 1 to N, where N is the parametered value. N will never be less than 1 (in C#, N might be less then 1).
+
+C# ONLY: If N is smaller then or equal to 0, throw an ArgumentOutOfRangeException!
+Replace certain values however if any of the following conditions are met:
+
+If the value is a multiple of 3: use the value 'Fizz' instead
+If the value is a multiple of 5: use the value 'Buzz' instead
+If the value is a multiple of 3 & 5: use the value 'FizzBuzz' instead
