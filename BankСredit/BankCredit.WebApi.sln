@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankCredit.WebApi", "BankCredit.WebApi\BankCredit.WebApi.csproj", "{5A8C6BD3-22D6-4C91-8AC2-A91CCDFE7D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankCredit.WebApi", "BankCredit.WebApi\BankCredit.WebApi.csproj", "{5A8C6BD3-22D6-4C91-8AC2-A91CCDFE7D18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankCredit.Tests", "BankCredit.Tests\BankCredit.Tests.csproj", "{0F899AB1-1D9B-4DE4-B080-5829E76023C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankCredit.Domain", "BankCredit.Domain\BankCredit.Domain.csproj", "{32335D7B-B9DB-4E1C-B746-B9E02CC0E6E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0F899AB1-1D9B-4DE4-B080-5829E76023C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F899AB1-1D9B-4DE4-B080-5829E76023C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F899AB1-1D9B-4DE4-B080-5829E76023C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32335D7B-B9DB-4E1C-B746-B9E02CC0E6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32335D7B-B9DB-4E1C-B746-B9E02CC0E6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32335D7B-B9DB-4E1C-B746-B9E02CC0E6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32335D7B-B9DB-4E1C-B746-B9E02CC0E6E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

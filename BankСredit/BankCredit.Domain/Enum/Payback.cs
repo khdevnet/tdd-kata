@@ -1,4 +1,4 @@
-﻿namespace BankCredit.Tests.WebApi.Controllers
+﻿namespace BankCredit.WebApi.Enum
 {
     public enum Payback
     {

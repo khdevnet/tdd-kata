@@ -6,18 +6,18 @@ namespace TddKata.Tests.FizzBuzzKata
 {
     public class FizzBuzz
     {
-        public static string PrintFizzBuzz()
+        public string PrintFizzBuzz()
         {
             var resultFizzBuzz = string.Empty;
             resultFizzBuzz = GetNumbers(resultFizzBuzz);
             return resultFizzBuzz;
         }
 
-        public static string PrintFizzBuzz(int number)
+        public string PrintFizzBuzz(int number)
         {
             CanThrowArgumentExceptionWhenNumberNotInRule(number);
 
-            var result = GetFizzBuzzResult(number);
+            var result = GetFizzBuzzResult(number+1);
 
             if (string.IsNullOrEmpty(result))
                 result = GetFizzResult(number);
@@ -28,28 +28,28 @@ namespace TddKata.Tests.FizzBuzzKata
         }
 
 
-        private static string GetFizzBuzzResult(int number)
+        private string GetFizzBuzzResult(int number)
         {
             string result = null;
             if (IsFizz(number) && IsBuzz(number)) result = "FizzBuzz";
             return result;
         }
 
-        private static string GetBuzzResult(int number)
+        private string GetBuzzResult(int number)
         {
             string result = null;
             if (IsBuzz(number)) result = "Buzz";
             return result;
         }
 
-        private static string GetFizzResult(int number)
+        private string GetFizzResult(int number)
         {
             string result = null;
             if (IsFizz(number)) result = "Fizz";
             return result;
         }
 
-        private static void CanThrowArgumentExceptionWhenNumberNotInRule(int number)
+        private void CanThrowArgumentExceptionWhenNumberNotInRule(int number)
         {
             if (number > 100 || number < 1)
                 throw new ArgumentException(
@@ -58,7 +58,7 @@ namespace TddKata.Tests.FizzBuzzKata
                         number));
         }
 
-        private static string GetNumbers(string resultFizzBuzz)
+        private string GetNumbers(string resultFizzBuzz)
         {
             for (var i = 1; i <= 100; i++)
             {
@@ -72,21 +72,10 @@ namespace TddKata.Tests.FizzBuzzKata
             return resultFizzBuzz.Trim();
         }
 
-        private static string GetNumbersUsingLinq(string resultFizzBuzz)
-        {
-            Enumerable.Range(1, 100)
-                .Select(fb => string.Format("{0}{1}", fb % 3 == 0 ? "Fizz" : "", fb % 5 == 0 ? "Buzz" : ""))
-                .Select(fb =>
-                    fb != null ? (string.IsNullOrEmpty(fb) ? fb.ToString(CultureInfo.InvariantCulture) : fb) : null)
-                .ToList()
-                .ForEach(x => resultFizzBuzz = x);
-            return resultFizzBuzz.Trim();
-        }
+        private bool IsNumber(string printNumber) => string.IsNullOrEmpty(printNumber);
 
-        private static bool IsNumber(string printNumber) => string.IsNullOrEmpty(printNumber);
+        private bool IsBuzz(int i) => i % 5 == 0;
 
-        private static bool IsBuzz(int i) => i % 5 == 0;
-
-        private static bool IsFizz(int i) => i % 3 == 0;
+        private bool IsFizz(int i) => i % 3 == 0;
     }
 }

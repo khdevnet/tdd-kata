@@ -14,8 +14,9 @@ namespace TddKata.Tests.CalculatorKata
             string delimiter = GetPossibleDelimiter();
             string newnumbers = numbers;
 
-            if (HasSpecificDelimiter(numbers)) //for specific delimiters
+            if (HasSpecificDelimiter(numbers))
             {
+
                 delimiter = GetSpecificDelimiter(numbers);
                 newnumbers = GetSpecificNumbers(numbers);
             }

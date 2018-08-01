@@ -13,4 +13,9 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BankCredit.Domain\BankCredit.Domain.csproj" />
+    <ProjectReference Include="..\BankCredit.WebApi\BankCredit.WebApi.csproj" />
+  </ItemGroup>
+
 </Project>

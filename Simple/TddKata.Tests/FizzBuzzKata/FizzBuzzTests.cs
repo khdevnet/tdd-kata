@@ -25,8 +25,7 @@ namespace TddKata.Tests.FizzBuzzKata
         [Test]
         public void CanTestFizz()
         {
-            Console.WriteLine(FizzBuzz.PrintFizzBuzz());
-            Assert.That(FizzBuzz.PrintFizzBuzz(), Is.EqualTo(resultFizz));
+            Assert.That(new FizzBuzz().PrintFizzBuzz(), Is.EqualTo(resultFizz));
         }
 
         [Test]
@@ -37,7 +36,7 @@ namespace TddKata.Tests.FizzBuzzKata
         [TestCase(30, "FizzBuzz")]
         public void CanTestSingleNumber(int number, string expectedresult)
         {
-            string actualresult = FizzBuzz.PrintFizzBuzz(number);
+            string actualresult = new FizzBuzz().PrintFizzBuzz(number);
             Assert.That(actualresult, Is.EqualTo(expectedresult),
                 string.Format("result of entered number [{0}] is [{1}] but it should be [{2}]", number,
                     actualresult, expectedresult));
@@ -49,7 +48,7 @@ namespace TddKata.Tests.FizzBuzzKata
         [TestCase(0)]
         public void CanThrowArgumentExceptionWhenSuppliedNumberDoesNotMeetRule(int number)
         {
-            ArgumentException exception = Assert.Throws<ArgumentException>(() => FizzBuzz.PrintFizzBuzz(number));
+            ArgumentException exception = Assert.Throws<ArgumentException>(() => new FizzBuzz().PrintFizzBuzz(number));
 
             Assert.That(exception.Message,
                 Is.EqualTo(string.Format(
