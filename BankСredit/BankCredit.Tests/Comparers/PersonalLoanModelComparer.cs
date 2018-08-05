@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using BankCredit.WebApi.Models;
 
 namespace BankCredit.Tests.Comparers
 {
-    internal class PersonalLoanComparer : BaseModelComparer<PersonalLoan>, IEqualityComparer<PersonalLoan>
+    internal class PersonalLoanModelComparer : BaseModelComparer<PersonalLoanModel>, IEqualityComparer<PersonalLoanModel>
     {
-        public bool Equals(PersonalLoan x, PersonalLoan y)
+        public bool Equals(PersonalLoanModel x, PersonalLoanModel y)
         {
 
             if (x == null || y == null)

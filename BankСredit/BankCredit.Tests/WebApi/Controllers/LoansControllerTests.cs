@@ -1,36 +1,50 @@
+using System;
 using System.Net;
 using System.Net.Http;
+using AutoMapper;
+using BankCredit.Domain.Entities;
+using BankCredit.Domain.Enum;
+using BankCredit.Domain.Extensibility;
 using BankCredit.Tests.Comparers;
 using BankCredit.WebApi.Controllers;
-using BankCredit.WebApi.Enum;
 using BankCredit.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Xunit;
 namespace BankCredit.Tests.WebApi.Controllers
 {
     public class LoansControllerTests
     {
+        private LoansController loansController;
+        private Mock<IMapper> mapperMock;
+        private Mock<ILoanCalculator> calculatorMock;
+        private Mock<ILoansRepository> loansRepositoryMock;
 
-        private LoansController loansController = new LoansController();
+        public LoansControllerTests()
+        {
+            mapperMock = new Mock<IMapper>();
+            calculatorMock = new Mock<ILoanCalculator>();
+            loansRepositoryMock = new Mock<ILoansRepository>();
+            loansController = new LoansController(calculatorMock.Object, mapperMock.Object, loansRepositoryMock.Object);
+        }
 
         [Fact]
         public void GetTemplateTest()
         {
-            var loanController = new LoansController();
 
-            var template = loanController.GetTemplate(LoanType.Personal);
+            var template = loansController.GetTemplate(LoanType.Personal);
 
-            var expected = new PersonalLoan(10000, 12, 6, Payback.EveryMonth);
+            var expected = CreatePersonalLoanModel();
 
-            Assert.Equal(expected, template, new PersonalLoanComparer());
+            Assert.Equal(expected, template, new PersonalLoanModelComparer());
         }
 
         [Fact]
         public void CreateTest()
         {
-            var expectedResponse = new ResponseModel<PersonalLoan>()
+            var expectedResponse = new ResponseModel<PersonalLoanModel>()
             {
-                Data = new PersonalLoan(10000, 12, 6, Payback.EveryMonth)
+                Data = CreatePersonalLoanModel()
             };
             var expected = new CreatedResult(nameof(LoansController.Get), expectedResponse);
             var actual = loansController.Create(expectedResponse.Data);
@@ -43,9 +57,79 @@ namespace BankCredit.Tests.WebApi.Controllers
         }
 
         [Fact]
-        public void CreateAmountRangeIsNotValidTest()
+        public void GetTest()
         {
-            var errorMerssage = $"{nameof(PersonalLoan.Amount)} should be less then 100000 and more then 1000.";
+            var id = Guid.Parse("97022aac-46f5-447b-a071-63d94b858274");
+            PersonalLoanModel personalLoanModel = CreatePersonalLoanModel();
+            var personalLoan = new PersonalLoan(1, 1, 1, Payback.EveryMonth, id);
+            mapperMock.Setup(m => m.Map<PersonalLoanModel>(personalLoan)).Returns(personalLoanModel);
+            loansRepositoryMock.Setup(m => m.Get(id)).Returns(personalLoan);
+            var expectedResponse = new ResponseModel<PersonalLoanModel>()
+            {
+                Data = personalLoanModel
+            };
+            var expected = new ObjectResult(expectedResponse) { StatusCode = (int)HttpStatusCode.OK };
+
+            var actual = loansController.Get(id);
+
+            Assert.Equal(
+                expected,
+                (ObjectResult)actual,
+                GetActionResultResponseDataModelComparer()
+                );
+        }
+
+        [Fact]
+        public void GetNotFoundTest()
+        {
+            var id = Guid.Parse("97022aac-46f5-447b-a071-63d94b858274");
+            loansRepositoryMock.Setup(m => m.Get(id)).Returns(() => null);
+            var expected = new NotFoundResult();
+
+            var actual = loansController.Get(id);
+
+            Assert.Equal(
+                expected.StatusCode,
+                ((NotFoundResult)actual).StatusCode
+                );
+        }
+
+
+        [Fact]
+        public void CreateModelValidationTest()
+        {
+            ModelValidationTest(loansController.Create, CreatePersonalLoanModel(100));
+        }
+
+        [Fact]
+        public void CalculateModelValidationTest()
+        {
+            ModelValidationTest(loansController.Calculate, CreatePersonalLoanModel(100));
+        }
+
+        [Fact]
+        public void CalculateLoanTest()
+        {
+            PersonalLoanModel personalLoanModel = CreatePersonalLoanModel();
+            var personalLoan = new PersonalLoan(1, 1, 1, Payback.EveryMonth);
+            mapperMock.Setup(m => m.Map<PersonalLoan>(personalLoanModel)).Returns(personalLoan);
+
+            var loanCalculations = new LoanCalculations(1, 1, 1);
+            var expectedLoanValue = new LoanCalculationsModel { Total = 100 };
+
+            mapperMock.Setup(m => m.Map<LoanCalculationsModel>(loanCalculations)).Returns(expectedLoanValue);
+
+            calculatorMock.Setup(c => c.Calculate(personalLoan)).Returns(loanCalculations);
+            var response = loansController.Calculate(personalLoanModel);
+            var actual = (ResponseModel<LoanCalculationsModel>)((ObjectResult)response).Value;
+            var expected = new ResponseModel<LoanCalculationsModel> { Data = expectedLoanValue };
+
+            Assert.Equal(expected.Data, actual.Data);
+        }
+
+        private void ModelValidationTest<TRequest>(Func<TRequest, IActionResult> action, TRequest request)
+        {
+            var errorMerssage = $"Error Message";
             loansController.ModelState.AddModelError(nameof(PersonalLoan.Amount), errorMerssage);
 
             var expectedData = new ResponseModel
@@ -60,16 +144,21 @@ namespace BankCredit.Tests.WebApi.Controllers
             {
                 StatusCode = (int?)HttpStatusCode.BadRequest,
             };
-            var actual = loansController.Create(new PersonalLoan(100, 12, 6, Payback.EveryMonth));
+            var actual = action(request);
 
             Assert.Equal(expected, (ObjectResult)actual, GetActionResultResponseModelComparer());
         }
 
-        private static ActionResultComparer<ResponseModel<PersonalLoan>> GetActionResultResponseDataModelComparer()
+        private static PersonalLoanModel CreatePersonalLoanModel(decimal amount = 10000)
         {
-            return new ActionResultComparer<ResponseModel<PersonalLoan>>(
-                new ResponseModelDataComparer<PersonalLoan>(
-                    new PersonalLoanComparer(),
+            return new PersonalLoanModel { Amount = amount, TermMonths = 12, RatePercents = 6, Payback = Payback.EveryMonth };
+        }
+
+        private static ActionResultComparer<ResponseModel<PersonalLoanModel>> GetActionResultResponseDataModelComparer()
+        {
+            return new ActionResultComparer<ResponseModel<PersonalLoanModel>>(
+                new ResponseModelDataComparer<PersonalLoanModel>(
+                    new PersonalLoanModelComparer(),
                     new MessageModelComparer()
                     ));
         }

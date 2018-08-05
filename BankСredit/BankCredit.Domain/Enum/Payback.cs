@@ -1,9 +1,9 @@
-﻿namespace BankCredit.WebApi.Enum
+﻿namespace BankCredit.Domain.Enum
 {
-    public enum Payback
+    public enum Payback : int
     {
-        EveryDay,
-        EveryWeek,
-        EveryMonth
+        EveryDay = 500,
+        EveryWeek = 1000,
+        EveryMonth = 4000
     }
 }

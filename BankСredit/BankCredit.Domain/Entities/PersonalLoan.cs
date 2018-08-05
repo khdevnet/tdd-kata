@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using BankCredit.WebApi.Enum;
+﻿using BankCredit.Domain.Enum;
+using System;
 
-namespace BankCredit.WebApi.Models
+namespace BankCredit.Domain.Entities
 {
     public class PersonalLoan
     {
@@ -9,15 +9,18 @@ namespace BankCredit.WebApi.Models
             decimal amount,
             int termMonths,
             int ratePercents,
-            Payback payback)
+            Payback payback,
+            Guid id = default(Guid))
         {
             Amount = amount;
             TermMonths = termMonths;
             RatePercents = ratePercents;
             Payback = payback;
+            Id = id == null ? Guid.NewGuid() : id;
         }
 
-        [Range(1000, 100000, ErrorMessage = "Amount should be less then 100000 and more then 1000.")]
+        public Guid Id { get; }
+
         public decimal Amount { get; }
 
         public int TermMonths { get; }

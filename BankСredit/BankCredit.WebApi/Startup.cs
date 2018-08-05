@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BankCredit.Domain;
+using BankCredit.Domain.Extensibility;
+using BankCredit.Domain.Repositories;
+using BankCredit.WebApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +28,8 @@ namespace BankCredit.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ILoanCalculator, LoanCalculator>();
+            services.AddSingleton<ILoansRepository>(new LoansRepository());
             services.AddMvc();
         }
 

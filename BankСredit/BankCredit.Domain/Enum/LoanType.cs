@@ -1,4 +1,4 @@
-﻿namespace BankCredit.WebApi.Enum
+﻿namespace BankCredit.Domain.Enum
 {
     public enum LoanType
     {
