@@ -34,7 +34,10 @@ namespace BankCredit.WebApi.Controllers
         {
             if (IsModelValid(out var errors))
             {
-                return new CreatedResult(nameof(LoansController.Get), new ResponseModel<PersonalLoanModel> { Data = loan });
+
+                PersonalLoan addedLoan = loansRepository.Add(mapper.Map<PersonalLoan>(loan));
+
+                return new CreatedResult(nameof(LoansController.Get), new ResponseModel<PersonalLoanModel> { Data = mapper.Map<PersonalLoanModel>( addedLoan) });
             }
             else
             {

@@ -9,6 +9,9 @@ namespace BankCredit.WebApi.Models
         public Guid Id { get; set; }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         [Range(1000, 100000, ErrorMessage = "Amount should be less then 100000 and more then 1000.")]
         public decimal? Amount { get; set; }
 

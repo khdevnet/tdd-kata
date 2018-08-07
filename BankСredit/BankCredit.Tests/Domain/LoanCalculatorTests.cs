@@ -8,12 +8,14 @@ namespace BankCredit.Tests.Domain
 {
     public class LoanCalculatorTests
     {
+        private readonly string PersonalLoanName = "John Doe";
+
         [Fact]
         public void CalculateTest()
         {
             var calculator = new LoanCalculator();
 
-            LoanCalculations actual = calculator.Calculate(new PersonalLoan(100000, 10, 6, Payback.EveryMonth));
+            LoanCalculations actual = calculator.Calculate(new PersonalLoan(PersonalLoanName, 100000, 10, 6, Payback.EveryMonth));
 
             Assert.Equal(new LoanCalculations(10600m, 106000m, 6000m), actual, new LoanCalculationsComparer());
         }

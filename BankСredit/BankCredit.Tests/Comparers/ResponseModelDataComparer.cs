@@ -25,7 +25,7 @@ namespace BankCredit.Tests.Comparers
                 return false;
             }
 
-            return DataEqual(x.Data, y.Data) && Equals(x, y);
+            return DataEqual(x.Data, y.Data) && base.Equals(x, y);
         }
 
         private bool DataEqual(TData x, TData y)

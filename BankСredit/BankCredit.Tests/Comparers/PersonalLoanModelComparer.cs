@@ -13,7 +13,8 @@ namespace BankCredit.Tests.Comparers
                 return false;
             }
 
-            return x.Amount == y.Amount &&
+            return x.Name == y.Name &&
+                   x.Amount == y.Amount &&
                    x.Payback == y.Payback &&
                    x.RatePercents == y.RatePercents &&
                    x.TermMonths == y.TermMonths;

@@ -6,12 +6,14 @@ namespace BankCredit.Domain.Entities
     public class PersonalLoan
     {
         public PersonalLoan(
+            string name,
             decimal amount,
             int termMonths,
             int ratePercents,
             Payback payback,
             Guid id = default(Guid))
         {
+            Name = name;
             Amount = amount;
             TermMonths = termMonths;
             RatePercents = ratePercents;
@@ -20,6 +22,8 @@ namespace BankCredit.Domain.Entities
         }
 
         public Guid Id { get; }
+
+        public string Name { get; }
 
         public decimal Amount { get; }
 
